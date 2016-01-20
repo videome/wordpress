@@ -73,6 +73,13 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 // If we're behind a proxy server and using HTTPS, we need to alert Wordpress of that fact
 // see also http://codex.wordpress.org/Administration_Over_SSL#Using_a_Reverse_Proxy
 if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+	// http://wordpress.org/support/topic/wordpress-behind-reverse-proxy-1 
+        $_SERVER['HTTP_HOST'] = $_SERVER['HTTP_X_FORWARDED_HOST']; 
+        define('WP_HOME', 'https://vme360.com/blog'); 
+        define('WP_SITEURL', 'https://vme360.com/blog'); 
+
+        $_SERVER['REQUEST_URI'] = str_replace("wordpress", "blog", $_SERVER['REQUEST_URI']);
+
 	$_SERVER['HTTPS'] = 'on';
 }
 
